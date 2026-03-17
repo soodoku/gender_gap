@@ -8,13 +8,13 @@ data:
 	$(PYTHON) scripts/01_fetch_data.py
 
 lfpr:
-	$(PYTHON) scripts/04_fetch_lfpr.py
+	$(PYTHON) scripts/02_fetch_lfpr.py
 
 analyze: data
-	$(PYTHON) scripts/02_analyze.py
+	$(PYTHON) scripts/03_analyze.py
 
 figures: data lfpr
-	$(PYTHON) scripts/03_make_figures.py
+	$(PYTHON) scripts/04_make_figures.py
 
 clean:
 	rm -f data/gpi_tertiary_enrollment_raw.csv

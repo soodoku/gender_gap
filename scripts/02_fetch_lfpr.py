@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-04_fetch_lfpr.py — Update female LFPR data from the World Bank API.
+02_fetch_lfpr.py — Update female LFPR data from the World Bank API.
 
 Usage:
-    python scripts/04_fetch_lfpr.py
+    python scripts/02_fetch_lfpr.py
 
 Output:
     Updates data/gpi_vs_lfpr.csv with fresh female_lfpr values

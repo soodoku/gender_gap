@@ -58,7 +58,7 @@ To refresh the data from the World Bank API:
 
 ```bash
 python scripts/01_fetch_data.py   # GPI cross-section
-python scripts/04_fetch_lfpr.py   # Female LFPR (updates gpi_vs_lfpr.csv)
+python scripts/02_fetch_lfpr.py   # Female LFPR (updates gpi_vs_lfpr.csv)
 ```
 
 No API key required. The historical panel was compiled from World Bank DataBank, FRED (St. Louis Fed), and UNESCO sources; see source notes in the CSV.
@@ -66,7 +66,7 @@ No API key required. The historical panel was compiled from World Bank DataBank,
 ## Analysis
 
 ```bash
-python scripts/02_analyze.py
+python scripts/03_analyze.py
 ```
 
 Prints summary statistics, region and income decompositions, extremes, reversal analysis, and a big-country table. Exports `data/gpi_viz_data.json`.
@@ -74,7 +74,7 @@ Prints summary statistics, region and income decompositions, extremes, reversal 
 ## Figures
 
 ```bash
-python scripts/03_make_figures.py
+python scripts/04_make_figures.py
 ```
 
 Generates six figures in `figs/`:
@@ -108,9 +108,9 @@ Generates six figures in `figs/`:
 │   └── fig6_gpi_vs_lfpr.png
 └── scripts/
     ├── 01_fetch_data.py      # Pull fresh GPI cross-section from World Bank API
-    ├── 02_analyze.py         # Summary statistics and decompositions
-    ├── 03_make_figures.py    # Generate all 6 figures
-    └── 04_fetch_lfpr.py      # Update female LFPR in gpi_vs_lfpr.csv from World Bank API
+    ├── 02_fetch_lfpr.py      # Update female LFPR in gpi_vs_lfpr.csv from World Bank API
+    ├── 03_analyze.py         # Summary statistics and decompositions
+    └── 04_make_figures.py    # Generate all 6 figures
 ```
 
 ## Quick start
