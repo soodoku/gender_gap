@@ -118,7 +118,7 @@ for patch, c in zip(patches, colors_hist):
 ax_hist.axvline(1.0, color=PARITY, linewidth=1.5, linestyle='--', alpha=0.7)
 ax_hist.axvline(np.median(gpis), color=GOLD, linewidth=1.5, linestyle='-', alpha=0.9)
 ax_hist.annotate('Parity', xy=(1.0, ax_hist.get_ylim()[1]*0.92), fontsize=9, color=PARITY, ha='right', xytext=(-8,0), textcoords='offset points')
-ax_hist.annotate(f'Median = {np.median(gpis):.3f}', xy=(np.median(gpis), ax_hist.get_ylim()[1]*0.92), fontsize=9, color=GOLD, ha='left', xytext=(8,0), textcoords='offset points')
+ax_hist.annotate(f'Median = {np.median(gpis):.1f}', xy=(np.median(gpis), ax_hist.get_ylim()[1]*0.92), fontsize=9, color=GOLD, ha='left', xytext=(8,0), textcoords='offset points')
 ax_hist.set_ylabel('Number of countries'); ax_hist.set_xlim(0.3, 1.9)
 ax_hist.set_xticks([]); ax_hist.spines['bottom'].set_visible(False)
 ax_hist.set_title('Distribution of Tertiary Enrollment GPI across 165 Countries', pad=12)
@@ -167,7 +167,7 @@ ax.axvline(1.0, color=PARITY, linewidth=1.5, linestyle='--', alpha=0.6, zorder=0
 ax.set_yticks(y_pos); ax.set_yticklabels(regions_order, fontsize=10)
 ax.set_xlabel('Population-weighted mean GPI'); ax.set_xlim(0, 1.45); ax.invert_yaxis()
 for i, v in enumerate(vals):
-    ax.text(v+0.015, i, f'{v:.3f}', va='center', fontsize=10, fontweight='bold', color=colors[i])
+    ax.text(v+0.015, i, f'{v:.1f}', va='center', fontsize=10, fontweight='bold', color=colors[i])
 ax.annotate('Parity', xy=(1.0, -0.6), fontsize=8, color=PARITY, ha='center')
 ax.set_title('Population-Weighted Mean GPI by World Bank Region', pad=12)
 ax.spines['top'].set_visible(False); ax.spines['right'].set_visible(False)
@@ -191,7 +191,7 @@ colors = [MALE if v < 1.0 else FEMALE for v in income_pw]
 ax.bar(x_pos, income_pw, width=0.55, color=colors, alpha=0.8, edgecolor='none')
 ax.axhline(1.0, color=PARITY, linewidth=1.5, linestyle='--', alpha=0.6, zorder=0)
 for i, (v, n, pct) in enumerate(zip(income_pw, income_n, income_pct)):
-    ax.text(i, v+0.025, f'{v:.3f}', ha='center', fontsize=12, fontweight='bold', color=colors[i])
+    ax.text(i, v+0.025, f'{v:.1f}', ha='center', fontsize=12, fontweight='bold', color=colors[i])
     ax.text(i, 0.05, f'n={n}\n{pct:.0f}% > 1', ha='center', fontsize=8, color='#555555')
 ax.set_xticks(x_pos); ax.set_xticklabels(income_labels, fontsize=10)
 ax.set_ylabel('Population-weighted mean GPI'); ax.set_ylim(0, 1.35)
@@ -220,7 +220,7 @@ ax.set_title('GPI for Countries with Population > 50M', pad=12)
 ax.spines['top'].set_visible(False); ax.spines['right'].set_visible(False)
 for i, r in enumerate(big):
     color = FEMALE if r['gpi'] >= 1.0 else MALE
-    ax.text(r['gpi']+0.02, i, f'{r["gpi"]:.3f}', va='center', fontsize=8, color=color, fontweight='bold')
+    ax.text(r['gpi']+0.02, i, f'{r["gpi"]:.1f}', va='center', fontsize=8, color=color, fontweight='bold')
 fig.savefig('figs/fig4_big_countries.png', facecolor=BG); plt.close()
 
 
