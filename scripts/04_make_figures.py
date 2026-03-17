@@ -307,7 +307,7 @@ ax_top.spines['right'].set_visible(False)
 
 # --- Bottom panel: share of countries with GPI > 1 over time ---
 # Use consistent denominator: countries with data in ALL snapshot years
-snapshot_years = [1990, 2000, 2010, 2020]
+snapshot_years = [1990, 1995, 2000, 2005, 2010, 2015, 2020]
 
 def get_gpi_for_year(c, target_year, window=2):
     """Get GPI for a year, allowing small window for missing exact years."""
@@ -336,20 +336,16 @@ for y in snapshot_years:
     n_above_list.append(above)
     pct_above.append(100 * above / n_consistent)
 
-# Add 2024 using latest available data for these same countries
-latest_above = sum(1 for c in consistent_countries if (c['latest'] or 0) > 1.0)
-snapshot_years_display = snapshot_years + [2024]
-n_above_list.append(latest_above)
-pct_above.append(100 * latest_above / n_consistent)
+snapshot_years_display = snapshot_years
 
-ax_bot.bar(snapshot_years_display, pct_above, width=7, color=FEMALE, alpha=0.8, edgecolor='none')
+ax_bot.bar(snapshot_years_display, pct_above, width=4, color=FEMALE, alpha=0.8, edgecolor='none')
 ax_bot.axhline(50, color=PARITY, linewidth=1, linestyle=':', alpha=0.5)
 
 for x, pct, na in zip(snapshot_years_display, pct_above, n_above_list):
     ax_bot.text(x, pct + 2, f'{pct:.0f}%', ha='center', fontsize=10, fontweight='bold', color=FEMALE)
     ax_bot.text(x, -6, f'{na}/{n_consistent}', ha='center', fontsize=8, color='#555555')
 
-ax_bot.set_xlim(1985, 2030)
+ax_bot.set_xlim(1987, 2023)
 ax_bot.set_ylim(-10, 100)
 ax_bot.set_ylabel('% of countries with GPI > 1')
 ax_bot.set_xlabel('Year')
