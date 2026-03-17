@@ -68,21 +68,35 @@ def load_current():
     return rows
 
 def load_historical():
-    years = [1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020]
-    rows = []
+    """Load historical GPI data in long format (iso3, economy, region, year, gpi)."""
+    country_data = {}
     with open('data/gpi_historical.csv', 'r') as f:
         for r in csv.DictReader(f):
-            ts = {}
-            for y in years:
-                val = r.get(str(y), '').strip()
-                if val:
-                    ts[y] = float(val)
-            rows.append({
-                'iso3': r['iso3'], 'economy': r['economy'],
-                'region': r['region'], 'ts': ts,
-                'latest': float(r['latest']) if r['latest'] else None,
-                'latest_year': int(r['latest_year']) if r['latest_year'] else None,
-            })
+            iso3 = r['iso3']
+            if iso3 not in country_data:
+                country_data[iso3] = {
+                    'iso3': iso3,
+                    'economy': r['economy'],
+                    'region': r['region'],
+                    'ts': {},
+                }
+            year = int(r['year'])
+            gpi = float(r['gpi'])
+            country_data[iso3]['ts'][year] = gpi
+    rows = []
+    for iso3, info in country_data.items():
+        ts = info['ts']
+        if len(ts) < 2:
+            continue
+        years = sorted(ts.keys())
+        rows.append({
+            'iso3': iso3,
+            'economy': info['economy'],
+            'region': info['region'],
+            'ts': ts,
+            'latest': ts[years[-1]],
+            'latest_year': years[-1],
+        })
     return rows
 
 def load_lfpr():
@@ -225,7 +239,7 @@ fig.savefig('figs/fig4_big_countries.png', facecolor=BG); plt.close()
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# NEW FIGURE 5: Historical GPI trajectories — spaghetti + share above parity
+# FIGURE 5: Historical GPI trajectories — spaghetti + share above parity
 # ══════════════════════════════════════════════════════════════════════════════
 
 fig, (ax_top, ax_bot) = plt.subplots(2, 1, figsize=(10, 8.5), height_ratios=[3, 2],
@@ -246,17 +260,16 @@ highlight_countries = {
     'BGD': {'color': '#2874a6', 'lw': 1.5, 'label': 'Bangladesh'},
 }
 
+# Only plot countries with 10+ observations for cleaner spaghetti
+hist_with_data = [c for c in hist if len(c['ts']) >= 10]
+
 # Draw background countries faintly
-for c in hist:
+for c in hist_with_data:
     if c['iso3'] not in highlight_countries:
         ts = c['ts']
-        if len(ts) >= 2:
-            yrs = sorted(ts.keys())
-            vals = [ts[y] for y in yrs]
-            if c['latest'] is not None:
-                yrs.append(c['latest_year'])
-                vals.append(c['latest'])
-            ax_top.plot(yrs, vals, color='#cccccc', alpha=0.5, lw=0.5, zorder=1)
+        yrs = sorted(ts.keys())
+        vals = [ts[y] for y in yrs]
+        ax_top.plot(yrs, vals, color='#cccccc', alpha=0.4, lw=0.5, zorder=1)
 
 # Draw highlighted countries
 for c in hist:
@@ -265,12 +278,7 @@ for c in hist:
         yrs = sorted(ts.keys())
         vals = [ts[y] for y in yrs]
         style = highlight_countries[c['iso3']]
-        # Add latest value
-        if c['latest'] is not None:
-            yrs.append(c['latest_year'])
-            vals.append(c['latest'])
         ax_top.plot(yrs, vals, color=style['color'], lw=style['lw'], alpha=0.9, zorder=5)
-        # Label at end
         ax_top.annotate(style['label'], xy=(yrs[-1], vals[-1]),
                         fontsize=8, color=style['color'], fontweight='bold',
                         xytext=(6, 0), textcoords='offset points', va='center', zorder=6)
@@ -285,39 +293,54 @@ ax_top.spines['top'].set_visible(False)
 ax_top.spines['right'].set_visible(False)
 
 # --- Bottom panel: share of countries with GPI > 1 over time ---
-# Compute for each snapshot year how many countries had data and how many > 1
-snapshot_years = [1990, 1995, 2000, 2005, 2010, 2015, 2020]
-n_total = []
-n_above = []
+# Use consistent denominator: countries with data in ALL snapshot years
+snapshot_years = [1990, 2000, 2010, 2020]
+
+def get_gpi_for_year(c, target_year, window=2):
+    """Get GPI for a year, allowing small window for missing exact years."""
+    ts = c['ts']
+    if target_year in ts:
+        return ts[target_year]
+    for delta in range(1, window + 1):
+        if target_year + delta in ts:
+            return ts[target_year + delta]
+        if target_year - delta in ts:
+            return ts[target_year - delta]
+    return None
+
+consistent_countries = []
+for c in hist:
+    vals = [get_gpi_for_year(c, y) for y in snapshot_years]
+    if all(v is not None for v in vals):
+        consistent_countries.append(c)
+
+n_consistent = len(consistent_countries)
 pct_above = []
+n_above_list = []
 
 for y in snapshot_years:
-    has_data = [c for c in hist if y in c['ts']]
-    above = [c for c in has_data if c['ts'][y] > 1.0]
-    n_total.append(len(has_data))
-    n_above.append(len(above))
-    pct_above.append(100 * len(above) / len(has_data) if has_data else 0)
+    above = sum(1 for c in consistent_countries if (get_gpi_for_year(c, y) or 0) > 1.0)
+    n_above_list.append(above)
+    pct_above.append(100 * above / n_consistent)
 
-# Add latest snapshot from the historical panel (for consistency)
-latest_data = [c for c in hist if c['latest'] is not None]
-latest_above = [c for c in latest_data if c['latest'] > 1.0]
-snapshot_years.append(2024)
-n_total.append(len(latest_data))
-n_above.append(len(latest_above))
-pct_above.append(100 * len(latest_above) / len(latest_data) if latest_data else 0)
+# Add 2024 using latest available data for these same countries
+latest_above = sum(1 for c in consistent_countries if (c['latest'] or 0) > 1.0)
+snapshot_years_display = snapshot_years + [2024]
+n_above_list.append(latest_above)
+pct_above.append(100 * latest_above / n_consistent)
 
-ax_bot.bar(snapshot_years, pct_above, width=3.5, color=FEMALE, alpha=0.8, edgecolor='none')
+ax_bot.bar(snapshot_years_display, pct_above, width=7, color=FEMALE, alpha=0.8, edgecolor='none')
 ax_bot.axhline(50, color=PARITY, linewidth=1, linestyle=':', alpha=0.5)
 
-for x, y, na, nt in zip(snapshot_years, pct_above, n_above, n_total):
-    ax_bot.text(x, y + 2, f'{y:.0f}%', ha='center', fontsize=9, fontweight='bold', color=FEMALE)
-    ax_bot.text(x, -6, f'({na}/{nt})', ha='center', fontsize=7, color='#555555')
+for x, pct, na in zip(snapshot_years_display, pct_above, n_above_list):
+    ax_bot.text(x, pct + 2, f'{pct:.0f}%', ha='center', fontsize=10, fontweight='bold', color=FEMALE)
+    ax_bot.text(x, -6, f'{na}/{n_consistent}', ha='center', fontsize=8, color='#555555')
 
-ax_bot.set_xlim(1987, 2028)
+ax_bot.set_xlim(1985, 2030)
 ax_bot.set_ylim(-10, 100)
 ax_bot.set_ylabel('% of countries with GPI > 1')
 ax_bot.set_xlabel('Year')
-ax_bot.set_title('Share of Countries Where Women Outnumber Men in Tertiary Enrollment', pad=10)
+ax_bot.set_title(f'Share of Countries Where Women Outnumber Men (N={n_consistent} countries)', pad=10)
 ax_bot.spines['top'].set_visible(False)
 ax_bot.spines['right'].set_visible(False)
 

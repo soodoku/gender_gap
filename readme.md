@@ -25,7 +25,7 @@ Japan and South Korea are outliers among rich countries—still male-majority.
 ### Historical Trends
 ![](figs/fig5_historical.png)
 
-In 1990, about a third of countries in our 32-country panel had GPI > 1. By 2000, half did. By 2024, nearly 90%. The median rate of increase is +0.15 GPI per decade.
+Using a balanced panel of countries with data from 1990 onward, we track the share with GPI > 1 over time. The reversal is striking: from a minority in 1990 to a large majority by 2024.
 
 ### Education vs Employment
 ![](figs/fig6_gpi_vs_lfpr.png)
@@ -49,17 +49,18 @@ All data from the [World Bank Open Data](https://data.worldbank.org/) platform, 
 | File | Description |
 |:---|:---|
 | `data/gpi_tertiary_enrollment.csv` | Cross-section: 165+ economies, most recent GPI, region, income group, population |
-| `data/gpi_historical.csv` | Panel: ~30 countries × ~10 time points (1970–2024), compiled from World Bank/FRED |
+| `data/gpi_historical.csv` | Panel: 197 countries, annual data (1970–2024), from World Bank API |
 | `data/gpi_vs_lfpr.csv` | Cross-section: GPI + female LFPR for ~60 countries (all columns from World Bank API) |
 
 To refresh the data from the World Bank API:
 
 ```bash
-python scripts/01_fetch_data.py   # GPI cross-section
-python scripts/02_fetch_lfpr.py   # Female LFPR (updates gpi_vs_lfpr.csv)
+python scripts/01_fetch_data.py    # GPI cross-section
+python scripts/01b_fetch_historical.py  # Historical panel (all years)
+python scripts/02_fetch_lfpr.py    # Female LFPR
 ```
 
-No API key required. The historical panel was compiled from World Bank DataBank, FRED (St. Louis Fed), and UNESCO sources; see source notes in the CSV.
+No API key required. All data from World Bank Open Data.
 
 ## Analysis
 
@@ -105,10 +106,11 @@ Generates six figures in `figs/`:
 │   ├── fig5_historical.png
 │   └── fig6_gpi_vs_lfpr.png
 └── scripts/
-    ├── 01_fetch_data.py      # Pull fresh GPI cross-section from World Bank API
-    ├── 02_fetch_lfpr.py      # Update female LFPR in gpi_vs_lfpr.csv from World Bank API
-    ├── 03_analyze.py         # Summary statistics and decompositions
-    └── 04_make_figures.py    # Generate all 6 figures
+    ├── 01_fetch_data.py       # Pull fresh GPI cross-section from World Bank API
+    ├── 01b_fetch_historical.py # Pull full historical panel (all years) from World Bank API
+    ├── 02_fetch_lfpr.py       # Update female LFPR in gpi_vs_lfpr.csv from World Bank API
+    ├── 03_analyze.py          # Summary statistics and decompositions
+    └── 04_make_figures.py     # Generate all 6 figures
 ```
 
 ## Quick start
@@ -130,7 +132,7 @@ make clean     # Remove generated files
 ## Key findings
 
 - **75%** of countries have GPI > 1 (female > male tertiary enrollment)
-- **In 1990**, about a third of countries in our 32-country panel had GPI > 1. By 2000, half. By 2024, ~90%. Median slope: +0.15/decade.
+- **Historical reversal**: In a balanced panel of countries with data since 1990, the share with GPI > 1 rose from a minority to a large majority by 2024.
 - **Pop-weighted mean** (1.1) is lower than the median (1.2)—the population giants lag
 - **Japan and South Korea** are the only large high-income countries with GPI < 1
 - **MENA paradox**: Several countries have GPI > 1 but overall female LFPR below 15%
