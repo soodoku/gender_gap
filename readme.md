@@ -2,25 +2,37 @@
 
 Replication materials for a short empirical note on the global reversal in tertiary enrollment gender parity, and the disconnect between women's education and labor force participation.
 
-In 136 of 165 countries, more women than men are enrolled in higher education. The median GPI is 1.236. The population-weighted mean is only 1.105. And in a striking cluster of MENA countries, women outnumber men in university while female labor force participation remains below 20%.
+In 152 of 203 countries, more women than men are enrolled in higher education. The median GPI is 1.2, but the population-weighted mean is only 1.1—the giants lag behind.
 
 ### Distribution
 ![](figs/fig1_distribution.png)
 
+Three-quarters of countries (75%) now have more women than men in tertiary education.
+
 ### By Region
 ![](figs/fig2_regions.png)
+
+Latin America leads (pop-weighted GPI 1.3); Sub-Saharan Africa lags (0.8).
 
 ### By Income Group
 ![](figs/fig3_income.png)
 
+The income gradient is monotonic: low-income 0.7 → high-income 1.2.
+
 ### Large Countries
 ![](figs/fig4_big_countries.png)
+
+Japan and South Korea are outliers among rich countries—still male-majority.
 
 ### Historical Trends
 ![](figs/fig5_historical.png)
 
+In 1970, no country had more women than men in universities. By 2000, half did. Today, over 80%.
+
 ### Education vs Employment
 ![](figs/fig6_gpi_vs_lfpr.png)
+
+In several MENA countries, women outnumber men in universities while overall female workforce participation remains low.
 
 ## Data
 
@@ -117,12 +129,12 @@ make clean     # Remove generated files
 
 ## Key findings
 
-- **82.4%** of countries have GPI > 1 (female > male tertiary enrollment)
-- **In 1980**, 0% of countries in our panel had GPI > 1. By 2000, 50%. By 2024, 82%.
-- **Pop-weighted mean** (1.105) is much lower than the median (1.236) — the giants lag
-- **Japan and South Korea** are the only high-income countries with GPI < 1
-- **Jordan, Algeria, Egypt, Iran** have GPI > 1 but female LFPR below 15% — educated but not employed
-- **Income gradient** is monotonic: low-income 0.681 → high-income 1.214
+- **75%** of countries have GPI > 1 (female > male tertiary enrollment)
+- **In 1970**, no country in our panel had GPI > 1. By 2000, about half. By 2024, over 80%.
+- **Pop-weighted mean** (1.1) is lower than the median (1.2)—the population giants lag
+- **Japan and South Korea** are the only large high-income countries with GPI < 1
+- **MENA paradox**: Several countries have GPI > 1 but overall female LFPR below 15%
+- **Income gradient** is monotonic: low-income 0.7 → high-income 1.2
 
 ## Requirements
 
