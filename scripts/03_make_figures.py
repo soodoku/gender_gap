@@ -372,6 +372,10 @@ ax.set_ylim(5, 90)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 
+ax.text(0.99, 0.02, 'Note: Gulf state LFPR includes large expat workforce',
+        transform=ax.transAxes, fontsize=7, color='#666666', style='italic',
+        ha='right', va='bottom')
+
 fig.savefig('figs/fig6_gpi_vs_lfpr.png', facecolor=BG)
 plt.close()
 
