@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+data/gpi_tertiary_enrollment_raw.csv
+data/gpi_viz_data.json
