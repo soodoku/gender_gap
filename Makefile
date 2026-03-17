@@ -1,16 +1,19 @@
-.PHONY: all data analyze figures clean
+.PHONY: all data lfpr analyze figures clean
 
 PYTHON ?= python3
 
-all: data analyze figures
+all: data lfpr analyze figures
 
 data:
 	$(PYTHON) scripts/01_fetch_data.py
 
+lfpr:
+	$(PYTHON) scripts/04_fetch_lfpr.py
+
 analyze: data
 	$(PYTHON) scripts/02_analyze.py
 
-figures: data
+figures: data lfpr
 	$(PYTHON) scripts/03_make_figures.py
 
 clean:

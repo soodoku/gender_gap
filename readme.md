@@ -52,15 +52,16 @@ All data from the [World Bank Open Data](https://data.worldbank.org/) platform, 
 |:---|:---|
 | `data/gpi_tertiary_enrollment.csv` | Cross-section: 165+ economies, most recent GPI, region, income group, population |
 | `data/gpi_historical.csv` | Panel: ~30 countries × ~10 time points (1970–2024), compiled from World Bank/FRED |
-| `data/gpi_vs_lfpr.csv` | Cross-section: GPI + female LFPR for ~60 countries, with highlight flags |
+| `data/gpi_vs_lfpr.csv` | Cross-section: GPI + female LFPR for ~60 countries (all columns from World Bank API) |
 
-To refresh the cross-section from the World Bank API:
+To refresh the data from the World Bank API:
 
 ```bash
-python scripts/01_fetch_data.py
+python scripts/01_fetch_data.py   # GPI cross-section
+python scripts/04_fetch_lfpr.py   # Female LFPR (updates gpi_vs_lfpr.csv)
 ```
 
-No API key required. The historical panel and LFPR data were compiled from World Bank DataBank, FRED (St. Louis Fed), and UNESCO sources; see source notes in each CSV.
+No API key required. The historical panel was compiled from World Bank DataBank, FRED (St. Louis Fed), and UNESCO sources; see source notes in the CSV.
 
 ## Analysis
 
@@ -108,7 +109,8 @@ Generates six figures in `figs/`:
 └── scripts/
     ├── 01_fetch_data.py      # Pull fresh GPI cross-section from World Bank API
     ├── 02_analyze.py         # Summary statistics and decompositions
-    └── 03_make_figures.py    # Generate all 6 figures
+    ├── 03_make_figures.py    # Generate all 6 figures
+    └── 04_fetch_lfpr.py      # Update female LFPR in gpi_vs_lfpr.csv from World Bank API
 ```
 
 ## Quick start
