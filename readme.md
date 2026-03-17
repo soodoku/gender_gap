@@ -1,7 +1,5 @@
 # The Other Gender Gap
 
-Replication materials for a short empirical note on the global reversal in tertiary enrollment gender parity, and the disconnect between women's education and labor force participation.
-
 In 152 of 203 countries, more women than men are enrolled in higher education. The median GPI is 1.2, but the population-weighted mean is only 1.1—the giants lag behind.
 
 ### Distribution
