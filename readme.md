@@ -25,7 +25,7 @@ Japan and South Korea are outliers among rich countries—still male-majority.
 ### Historical Trends
 ![](figs/fig5_historical.png)
 
-In 1970, no country had more women than men in universities. By 2000, half did. Today, over 80%.
+In 1990, about a third of countries in our 32-country panel had GPI > 1. By 2000, half did. By 2024, nearly 90%. The median rate of increase is +0.15 GPI per decade.
 
 ### Education vs Employment
 ![](figs/fig6_gpi_vs_lfpr.png)
@@ -130,7 +130,7 @@ make clean     # Remove generated files
 ## Key findings
 
 - **75%** of countries have GPI > 1 (female > male tertiary enrollment)
-- **In 1970**, no country in our panel had GPI > 1. By 2000, about half. By 2024, over 80%.
+- **In 1990**, about a third of countries in our 32-country panel had GPI > 1. By 2000, half. By 2024, ~90%. Median slope: +0.15/decade.
 - **Pop-weighted mean** (1.1) is lower than the median (1.2)—the population giants lag
 - **Japan and South Korea** are the only large high-income countries with GPI < 1
 - **MENA paradox**: Several countries have GPI > 1 but overall female LFPR below 15%
