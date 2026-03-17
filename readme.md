@@ -25,7 +25,7 @@ Japan and South Korea are outliers among rich countries—still male-majority.
 ### Historical Trends
 ![](figs/fig5_historical.png)
 
-Using a balanced panel of countries with data from 1990 onward, we track the share with GPI > 1 over time. The reversal is striking: from a minority in 1990 to a large majority by 2024.
+Using a balanced panel of 30 countries with data from 1990 onward, we track the share with GPI > 1 over time. The trend doubled: from 33% in 1990 to 67% by 2024. A LOWESS trend line shows the overall trajectory.
 
 ### Education vs Employment
 ![](figs/fig6_gpi_vs_lfpr.png)
@@ -132,7 +132,7 @@ make clean     # Remove generated files
 ## Key findings
 
 - **75%** of countries have GPI > 1 (female > male tertiary enrollment)
-- **Historical reversal**: In a balanced panel of countries with data since 1990, the share with GPI > 1 rose from a minority to a large majority by 2024.
+- **Historical reversal**: In a balanced panel of 30 countries, the share with GPI > 1 rose from 33% (1990) to 67% (2024)
 - **Pop-weighted mean** (1.1) is lower than the median (1.2)—the population giants lag
 - **Japan and South Korea** are the only large high-income countries with GPI < 1
 - **MENA paradox**: Several countries have GPI > 1 but overall female LFPR below 15%

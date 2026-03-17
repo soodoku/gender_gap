@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
 from collections import defaultdict
+from statsmodels.nonparametric.smoothers_lowess import lowess
 
 # ── Style ────────────────────────────────────────────────────────────────────
 
@@ -270,6 +271,18 @@ for c in hist_with_data:
         yrs = sorted(ts.keys())
         vals = [ts[y] for y in yrs]
         ax_top.plot(yrs, vals, color='#cccccc', alpha=0.4, lw=0.5, zorder=1)
+
+# Fit and draw LOWESS trend across all countries
+all_points = []
+for c in hist_with_data:
+    for year, gpi in c['ts'].items():
+        all_points.append((year, gpi))
+all_points.sort()
+years = np.array([p[0] for p in all_points])
+gpis = np.array([p[1] for p in all_points])
+smoothed = lowess(gpis, years, frac=0.2, return_sorted=True)
+ax_top.plot(smoothed[:, 0], smoothed[:, 1], color='#1a1a1a', lw=3,
+            alpha=0.8, zorder=4, label='LOWESS trend')
 
 # Draw highlighted countries
 for c in hist:
